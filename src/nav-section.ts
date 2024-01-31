@@ -1,26 +1,26 @@
-import type { DirectionType, ExtendedSelectorType, INavSection, LeaveForType, NavConfigType, PreviosFocusType } from "./spatial-navigator";
-import SpatialNavigator, { Restrict } from "./spatial-navigator";
-import { elementMatchesSelector, selectElements } from "./utils";
+import type { DirectionType, ExtendedSelectorType, INavSection, LeaveForType, NavConfigType, PreviousFocusType } from "./index";
+import Navigator, { Restrict } from "./index";
+import { selectElements } from "./utils";
 
 export default class NavSection implements INavSection {
-	private id: string;
+	private readonly id: string;
 	private disabled: boolean = false;
-	private navigator: SpatialNavigator;
+	private navigator: Navigator;
 
 	public defaultElementSelector?: string = "";
-	public lastFocusedElement: HTMLElement = undefined;
-	public previousFocus?: PreviosFocusType = undefined;
+	public lastFocusedElement: HTMLElement | undefined = undefined;
+	public previousFocus?: PreviousFocusType = undefined;
 	public selector?: string = "";
 	public straightOnly?: boolean = false;
 	public straightOverlapThreshold?: number = undefined;
 	public rememberSource?: boolean = false;
 	public priority?: "" | "last-focused" | "default-element" = "";
-	public leaveFor?: LeaveForType = null;
+	public leaveFor: LeaveForType | undefined = undefined;
 	public restrict?: Restrict = Restrict.SELF_FIRST;
 	public tabIndexIgnoreList: string = "a, input, select, textarea, button, iframe, [contentEditable=true]";
-	public navigableFilter: (element: HTMLElement, sectionId?: string) => boolean = null;
+	public navigableFilter: ((element: HTMLElement, sectionId?: string) => boolean) | undefined = undefined;
 
-	constructor(navigator: SpatialNavigator, config: Omit<NavConfigType, "lastFocusedElement" | "previousFocus">, id?: string) {
+	constructor(navigator: Navigator, config: Omit<NavConfigType, "lastFocusedElement" | "previousFocus">, id?: string) {
 		if (navigator) {
 			this.navigator = navigator;
 		} else {
@@ -37,9 +37,18 @@ export default class NavSection implements INavSection {
 	}
 
 	public setConfig(config: NavConfigType): void {
-		for (const key in config) {
-			this[key] = config[key] ?? SpatialNavigator.config[key];
+		for (const key in Navigator.config) {
+			if ("selector" === key) {
+				this.selector = (config.selector ?? "").toString() + " " + Navigator.config.selector;
+			} else {
+				//@ts-ignore
+				this[key] = config[key] ?? Navigator.config[key];
+			}
 		}
+	}
+
+	public getId(): string {
+		return this.id;
 	}
 
 	public disable(): void {
@@ -60,7 +69,7 @@ export default class NavSection implements INavSection {
 
 	public makeFocusable(): void {
 		const ignoredTabsList: string = this.getIgnoredTabsList();
-		selectElements(this.selector).forEach((element: HTMLElement) => {
+		selectElements(this.selector)?.forEach((element: HTMLElement) => {
 			if (!this.matchSelector(element, ignoredTabsList) && !element.getAttribute("tabindex")) {
 				element.setAttribute("tabindex", "-1");
 			}
@@ -71,26 +80,26 @@ export default class NavSection implements INavSection {
 		return this.matchSelector(element, this.selector);
 	}
 
-	private matchSelector(element: HTMLElement, selector: any): boolean {
-		if ("string" === typeof selector) {
-			return elementMatchesSelector.call(element, selector);
-		} else if ("object" === typeof selector && selector.length) {
-			return selector.indexOf(element) >= 0;
-		} else if ("object" === typeof selector && 1 === selector.nodeType) {
-			return element === selector;
+	private matchSelector(element: HTMLElement, selectors: any): boolean {
+		if ("string" === typeof selectors) {
+			return element.matches(selectors);
+		} else if ("object" === typeof selectors && selectors.length) {
+			return selectors.indexOf(element) >= 0;
+		} else if ("object" === typeof selectors && 1 === selectors.nodeType) {
+			return element === selectors;
 		}
 
 		return false;
 	}
 
 	private getIgnoredTabsList(): string {
-		return this.tabIndexIgnoreList !== undefined ? this.tabIndexIgnoreList : SpatialNavigator.config.tabIndexIgnoreList;
+		return this.tabIndexIgnoreList !== undefined ? this.tabIndexIgnoreList : Navigator.config.tabIndexIgnoreList;
 	}
 
 	/**************/
 	/* NavMethods */
 	/**************/
-	public isNavigable(element: HTMLElement, verifySectionSelector?: boolean): boolean {
+	public isNavigable(element?: HTMLElement, verifySectionSelector?: boolean): boolean {
 		if (!element || this.isDisabled()) {
 			return false;
 		}
@@ -107,8 +116,8 @@ export default class NavSection implements INavSection {
 			if (this.navigableFilter(element) === false) {
 				return false;
 			}
-		} else if ("function" === typeof SpatialNavigator.config.navigableFilter) {
-			if (SpatialNavigator.config.navigableFilter(element) === false) {
+		} else if ("function" === typeof Navigator.config.navigableFilter) {
+			if (Navigator.config.navigableFilter(element) === false) {
 				return false;
 			}
 		}
@@ -116,25 +125,25 @@ export default class NavSection implements INavSection {
 		return true;
 	}
 
-	public getDefaultElement(): HTMLElement {
+	public getDefaultElement(): HTMLElement | undefined {
 		if (this.defaultElementSelector) {
 			return selectElements(this.defaultElementSelector)?.find((element: HTMLElement) => this.isNavigable(element, true));
 		}
 	}
 
-	public getNavigableElements(): HTMLElement[] {
+	public getNavigableElements(): HTMLElement[] | undefined {
 		if (this.selector) {
 			return selectElements(this.selector)?.filter((element: HTMLElement) => this.isNavigable(element));
 		}
 	}
 
-	public getLastFocusedElement(): HTMLElement {
+	public getLastFocusedElement(): HTMLElement | undefined {
 		if (this.isNavigable(this.lastFocusedElement, true)) {
 			return this.lastFocusedElement;
 		}
 	}
 
-	public getPrimaryElement(): HTMLElement {
+	public getPrimaryElement(): HTMLElement | undefined {
 		switch (this.priority) {
 			case "last-focused":
 				return this.getLastFocusedElement() || this.getDefaultElement();
@@ -150,27 +159,29 @@ export default class NavSection implements INavSection {
 			return false;
 		}
 
-		let element: HTMLElement;
+		let element: HTMLElement | undefined;
 
 		if ("last-focused" === this.priority) {
-			element = this.getLastFocusedElement() || this.getDefaultElement() || this.getNavigableElements()[0];
+			element = this.getLastFocusedElement() || this.getDefaultElement() || this.getNavigableElements()?.[0];
 		} else {
-			element = this.getDefaultElement() || this.getLastFocusedElement() || this.getNavigableElements()[0];
+			element = this.getDefaultElement() || this.getLastFocusedElement() || this.getNavigableElements()?.[0];
 		}
 
 		if (element) {
 			return this.navigator.focusElement(element, this.id);
 		}
+
+		return false;
 	}
 
-	private getleaveForAt(direction: DirectionType): ExtendedSelectorType {
+	private getLeaveForAt(direction: DirectionType): ExtendedSelectorType | undefined {
 		if (this.leaveFor && this.leaveFor[direction] !== undefined) {
 			return this.leaveFor[direction];
 		}
 	}
 
 	public gotoLeaveFor(direction: DirectionType): boolean | undefined {
-		const selector: ExtendedSelectorType = this.getleaveForAt(direction);
+		const selector: ExtendedSelectorType | undefined = this.getLeaveForAt(direction);
 
 		if ("string" === typeof selector) {
 			if ("" === selector) {
