@@ -1,0 +1,26 @@
+{
+	"name": "ts-spatial-navigation",
+	"version": "1.0.0",
+	"description": "TypeScrypt Spatial Navigation Module",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/gizomo/ts-spatial-navigation.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/gizomo/ts-spatial-navigation/issues"
+	},
+	"homepage": "https://github.com/gizomo/ts-spatial-navigation#readme",
+	"devDependencies": {
+		"typescript": "^5.3.3"
+	},
+	"dependencies": {
+		"helpful-decorators": "^2.1.0"
+	}
+}
