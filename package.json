@@ -1,7 +1,9 @@
 {
 	"name": "ts-spatial-navigation",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "TypeScrypt Spatial Navigation Module",
+	"author": "Ivan Godenov",
+	"license": "ISC",
 	"main": "index.ts",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
@@ -10,9 +12,6 @@
 		"type": "git",
 		"url": "git+https://github.com/gizomo/ts-spatial-navigation.git"
 	},
-	"keywords": [],
-	"author": "Ivan Godenov",
-	"license": "ISC",
 	"homepage": "https://github.com/gizomo/ts-spatial-navigation#readme",
 	"devDependencies": {
 		"typescript": "^5.3.3"

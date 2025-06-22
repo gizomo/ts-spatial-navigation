@@ -1,5 +1,5 @@
-import { bind } from "helpful-decorators";
-import type { IElementRect, ElementCenterType } from "./index";
+import { bind } from 'helpful-decorators';
+import type { IElementRect, ElementCenterType } from './index';
 
 export default class ElementRect implements IElementRect {
 	public width: number;

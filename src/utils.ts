@@ -1,15 +1,15 @@
 function isCollection(selector: HTMLElement | HTMLCollectionOf<HTMLElement>): selector is HTMLCollectionOf<HTMLElement> {
-	return selector.hasOwnProperty("length");
+	return selector.hasOwnProperty('length');
 }
 
 function isElement(selector: any | HTMLElement): selector is HTMLElement {
-	return selector.hasOwnProperty("nodeType") && 1 === selector.nodeType;
+	return selector.hasOwnProperty('nodeType') && 1 === selector.nodeType;
 }
 
 export function selectElements(selector?: string | HTMLElement | HTMLCollectionOf<HTMLElement>): HTMLElement[] | undefined {
 	try {
 		if (selector) {
-			if ("string" === typeof selector) {
+			if ('string' === typeof selector) {
 				return [].slice.call(document.querySelectorAll(selector));
 			} else if (isCollection(selector)) {
 				return [].slice.call(selector);
@@ -22,32 +22,32 @@ export function selectElements(selector?: string | HTMLElement | HTMLCollectionO
 	}
 }
 
-export const EVENT_PREFIX: string = "sn:";
+export const EVENT_PREFIX: string = 'sn:';
 
 export function fireEvent(element: HTMLElement, type: string, detail?: any, cancelable: boolean = true): boolean {
-	return element.dispatchEvent(new CustomEvent(EVENT_PREFIX + type, { detail, cancelable }));
+	return element.dispatchEvent(new CustomEvent(EVENT_PREFIX + type, {detail, cancelable}));
 }
 
 export const KeyMapping: Readonly<Record<number, string>> = {
-	37: "left",
-	38: "up",
-	39: "right",
-	40: "down",
+	37: 'left',
+	38: 'up',
+	39: 'right',
+	40: 'down',
 } as const;
 
-export function getDirection(event: KeyboardEvent): (typeof KeyMapping)[keyof typeof KeyMapping] | undefined {
+export function getDirection(event: KeyboardEvent): (typeof KeyMapping)[keyof typeof KeyMapping] {
 	if (event.keyCode) {
 		return KeyMapping[event.keyCode];
 	}
 
 	switch (event.code) {
-		case "ArrowUp":
+		case 'ArrowUp':
 			return KeyMapping[38];
-		case "ArrowDown":
+		case 'ArrowDown':
 			return KeyMapping[40];
-		case "ArrowLeft":
+		case 'ArrowLeft':
 			return KeyMapping[37];
-		case "ArrowRight":
+		case 'ArrowRight':
 			return KeyMapping[39];
 		default:
 			return;
@@ -59,10 +59,13 @@ export function isEnter(event: KeyboardEvent): boolean {
 		return 13 === event.keyCode;
 	}
 
-	return "Enter" === event.code;
+	return 'Enter' === event.code;
 }
 
-export function extend<C extends Record<number | string | symbol, any>>(out?: Record<number | string | symbol, any>, ...args: C[]): C {
+export function extend<C extends Record<number | string | symbol, any>>(
+	out?: Record<number | string | symbol, any>,
+	...args: C[]
+): C {
 	out = out || {};
 
 	for (let i: number = 1; i < args.length; i++) {
