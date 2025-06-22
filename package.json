@@ -1,7 +1,7 @@
 {
-	"name": "ts-spatial-navigation",
-	"version": "1.1.0",
-	"description": "TypeScrypt Spatial Navigation Module",
+	"name": "web-spatial-navigation",
+	"version": "1.1.1",
+	"description": "Spatial Navigation for Web",
 	"author": "Ivan Godenov",
 	"license": "ISC",
 	"main": "index.ts",
