@@ -1,22 +1,28 @@
 {
-	"name": "web-spatial-navigation",
-	"version": "1.1.1",
-	"description": "Spatial Navigation for Web",
-	"author": "Ivan Godenov",
-	"license": "ISC",
-	"main": "index.ts",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/gizomo/ts-spatial-navigation.git"
-	},
-	"homepage": "https://github.com/gizomo/ts-spatial-navigation#readme",
-	"devDependencies": {
-		"typescript": "^5.3.3"
-	},
-	"dependencies": {
-		"helpful-decorators": "^2.1.0"
-	}
+  "name": "web-spatial-navigation",
+  "version": "1.2.0",
+  "description": "Spatial Navigation for Web",
+  "author": "Ivan Godenov",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gizomo/web-spatial-navigation.git"
+  },
+  "homepage": "https://github.com/gizomo/web-spatial-navigation#readme",
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^3.1.2",
+    "@tsconfig/svelte": "^5.0.4",
+    "less": "^4.2.1",
+    "svelte": "^4.2.19",
+    "typescript": "~5.7.2",
+    "vite": "^5.4.9"
+  },
+  "dependencies": {
+    "helpful-decorators": "^2.1.0"
+  }
 }
