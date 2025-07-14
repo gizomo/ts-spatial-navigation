@@ -1,6 +1,6 @@
 <script lang="ts">
   import Keyboard from './keyboard';
-  import Navigator from '../lib';
+  import {Navigator} from 'web-spatial-navigation';
   import {onDestroy} from 'svelte';
 
   const nav = new Navigator().init().setConfig({selector: '.focusable'});

@@ -7,7 +7,7 @@ import type {
   PreviousFocus,
   Restrict,
 } from './types';
-import Navigator, {RESTRICT} from './index';
+import Navigator, {RESTRICT} from './navigator';
 import {selectElements} from './utils';
 
 export default class NavSection implements INavSection {

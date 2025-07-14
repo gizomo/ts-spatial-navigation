@@ -6,9 +6,8 @@
     type KeyboardLayout,
     type Size, SystemKeys,
   } from './index';
-  import ElementRect from '../../lib/element-rect';
-  import type Navigator from '../../lib';
-  import type {IElementRect, INavSection} from '../../lib/types';
+  import type {Navigator, INavSection, IElementRect} from 'web-spatial-navigation';
+  import {ElementRect} from 'web-spatial-navigation';
   import {onDestroy, tick} from 'svelte';
 
   export let nav: Navigator;

@@ -1,7 +1,16 @@
-import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 
-// https://vite.dev/config/
+// https://vitejs.dev/guide/build.html#library-mode
 export default defineConfig({
-  plugins: [svelte()],
-})
+  build: {
+    copyPublicDir: false,
+    lib: {
+      entry: resolve(__dirname, 'src/index.ts'),
+      name: 'web-spatial-navigation',
+      formats: ['es']
+    },
+  },
+  plugins: [dts()],
+});

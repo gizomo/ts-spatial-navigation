@@ -1,4 +1,3 @@
-import { bind } from 'helpful-decorators';
 import type {IElementRect} from './types';
 
 export default class ElementRect implements IElementRect {
@@ -27,6 +26,15 @@ export default class ElementRect implements IElementRect {
 		this.left = left;
 		this.right = right;
 		this.center = this.getCenter(this);
+
+		this.nearPlumbLineIsBetter = this.nearPlumbLineIsBetter.bind(this);
+		this.nearHorizonIsBetter = this.nearHorizonIsBetter.bind(this);
+		this.nearTargetLeftIsBetter = this.nearTargetLeftIsBetter.bind(this);
+		this.nearTargetTopIsBetter = this.nearTargetTopIsBetter.bind(this);
+		this.topIsBetter = this.topIsBetter.bind(this);
+		this.bottomIsBetter = this.bottomIsBetter.bind(this);
+		this.leftIsBetter = this.leftIsBetter.bind(this);
+		this.rightIsBetter = this.rightIsBetter.bind(this);
 	}
 
 	private getCenter({width, height, left, top}: DOMRectReadOnly): DOMRectReadOnly {
@@ -41,46 +49,38 @@ export default class ElementRect implements IElementRect {
 		return {x, y, width, height, top, bottom, left, right, center};
 	}
 
-	@bind
 	public nearPlumbLineIsBetter({ left, center, right }: IElementRect): number {
 		const d: number = center.x < this.center.x ? this.center.x - right : left - this.center.x;
 		return d < 0 ? 0 : d;
 	}
 
-	@bind
 	public nearHorizonIsBetter({ center, bottom, top }: IElementRect): number {
 		const d: number = center.y < this.center.y ? this.center.y - bottom : top - this.center.y;
 		return d < 0 ? 0 : d;
 	}
 
-	@bind
 	public nearTargetLeftIsBetter({ center, right, left }: IElementRect): number {
 		const d: number = center.x < this.center.x ? this.left - right : left - this.left;
 		return d < 0 ? 0 : d;
 	}
 
-	@bind
 	public nearTargetTopIsBetter({ center, bottom, top }: IElementRect): number {
 		const d: number = center.y < this.center.y ? this.top - bottom : top - this.top;
 		return d < 0 ? 0 : d;
 	}
 
-	@bind
 	public topIsBetter({ top }: IElementRect): number {
 		return top;
 	}
 
-	@bind
 	public bottomIsBetter({ bottom }: IElementRect): number {
 		return -1 * bottom;
 	}
 
-	@bind
 	public leftIsBetter({ left }: IElementRect): number {
 		return left;
 	}
 
-	@bind
 	public rightIsBetter({ right }: IElementRect): number {
 		return -1 * right;
 	}

@@ -1,6 +1,5 @@
 import ElementRect from './element-rect';
 import NavSection from './nav-section';
-import {bind} from 'helpful-decorators';
 import {exclude, fireEvent, getDirection, isEnter, selectElements} from './utils';
 import type {
   Direction,
@@ -59,6 +58,13 @@ export default class Navigator {
   private sectionsIdPool: number = 0;
   private defaultSectionId: string = '';
   private lastSectionId: string = '';
+
+  constructor() {
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+  }
 
   private generateId(): string {
     let id: string;
@@ -768,7 +774,6 @@ export default class Navigator {
     return this.fireNavigateFailed(focusedElement, direction);
   }
 
-  @bind
   private onKeyDown(event: KeyboardEvent): boolean {
     if (!this.sectionCount || this.paused || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
       return;
@@ -824,7 +829,6 @@ export default class Navigator {
     return preventDefault();
   }
 
-  @bind
   private onKeyUp(event: KeyboardEvent): void {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
       return;
@@ -842,7 +846,6 @@ export default class Navigator {
     }
   }
 
-  @bind
   private onFocus({target}: FocusEvent): void {
     if (target === window || target === document) {
       if (this.ready && !this.paused && this.sectionCount) {
@@ -872,7 +875,6 @@ export default class Navigator {
     }
   }
 
-  @bind
   private onBlur({target}: FocusEvent): void {
     if (target === window || target === document) {
       return;
