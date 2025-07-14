@@ -2,8 +2,9 @@
   "name": "web-spatial-navigation",
   "version": "1.2.1",
   "description": "Spatial Navigation for Web",
+  "keywords": ["web", "spatial", "navigation"],
   "author": "Ivan Godenov",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "files": ["dist"],
   "module": "./dist/web-spatial-navigation.js",
@@ -16,6 +17,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gizomo/web-spatial-navigation.git"
+  },
+  "bugs": {
+    "url": "git+https://github.com/gizomo/web-spatial-navigation/issues"
   },
   "homepage": "https://github.com/gizomo/web-spatial-navigation#readme",
   "devDependencies": {
