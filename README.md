@@ -6,12 +6,12 @@ This project is a typescript implementation of a web navigation module based on 
 
 <b>Npm</b>
 ```shell
-npm install web-spatiial-navigation -S
+npm install web-spatial-navigation -S
 ```
 
 <b>Yarn</b>
 ```shell
-yarn add web-spatiial-navigation
+yarn add web-spatial-navigation
 ```
 
 To demonstrate the library's operation, you can build a demo project. To do this, download the demo repository and run the commands:

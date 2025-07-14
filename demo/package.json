@@ -1,17 +1,16 @@
 {
-  "name": "demo",
+  "name": "web-spatial-navigation-demo",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   },
   "dependencies": {
     "helpful-decorators": "^2.1.0",
-    "web-spatial-navigation": "file:../"
+    "web-spatial-navigation": "^1.2.1"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.1.2",
